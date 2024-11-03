@@ -34,7 +34,7 @@ const Result = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        marginTop: "10%",
+        justifyContent: "center",
       }}
     >
       <h1>Patent Infringement Analysis</h1>
