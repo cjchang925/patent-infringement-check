@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormControl, Button, Form } from "react-bootstrap";
 import { Analysis } from "../interfaces/analysis";
 import { useDispatch } from "react-redux";
@@ -21,8 +21,20 @@ const Search = () => {
 
   const [loading, setLoading] = useState(false);
 
+  const [disableViewLastAnalysis, setDisableViewLastAnalysis] = useState(true);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const analysis = localStorage.getItem("analysis");
+
+    if (analysis) {
+      setDisableViewLastAnalysis(false);
+    } else {
+      setDisableViewLastAnalysis(true);
+    }
+  }, []);
 
   /**
    * Fetches the analysis from the server and updates the store
@@ -124,10 +136,10 @@ const Search = () => {
             />
           </Form.Group>
         </Form>
-        <Button variant="primary" onClick={() => search()}>
+        <Button variant="primary" onClick={() => search()} disabled={!patentId.length || !company.length}>
           Search
         </Button>
-        <Button variant="success" onClick={handleViewLastAnalysis}>
+        <Button variant="success" onClick={handleViewLastAnalysis} disabled={disableViewLastAnalysis}>
           View last analysis
         </Button>
       </motion.div>
